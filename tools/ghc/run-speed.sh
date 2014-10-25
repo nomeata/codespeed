@@ -89,12 +89,12 @@ cat buildtime
 
 say "Running the testsuite"
 
-run make -C testsuite fast VERBOSE=4 THREADS=8 NoFibRuns=15
+run make -C testsuite fast VERBOSE=4 THREADS=8
 
 say "Running nofib"
 
 run make -C nofib boot
-run make -C nofib
+run make -C nofib NoFibRuns=15
 
 say "Total space used"
 
