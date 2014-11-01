@@ -87,6 +87,8 @@ for my $filename (@ARGV) {
 		if ($log =~ m/^ +(\d+) unexpected passes/m);
 	$report->($BAD_TESTS, 'testsuite/expected failures', $1)
 		if ($log =~ m/^ +(\d+) expected failures/m);
+	$report->($BAD_TESTS, 'testsuite/expected stats', $1)
+		if ($log =~ m/^ +(\d+) expected stat failures/m);
 	$report->($BAD_TESTS, 'testsuite/unexpected failures', $1)
 		if ($log =~ m/^ +(\d+) unexpected failures/m);
 
