@@ -43,6 +43,12 @@ my $BAD_TESTS = {
 	lessisbetter => "True",
 };
 
+my $CONFLICTS = {
+	units_title => "Parser Conflicts",
+	units => "conflicts",
+	lessisbetter => "True",
+};
+
 for my $filename (@ARGV) {
 	my $output = dirname($filename)."/".basename($filename,".log"). ".json";
 
@@ -94,6 +100,11 @@ for my $filename (@ARGV) {
 
 	$report->($BUILDTIME, 'buildtime/make', $1*60 + $2)
 		if ($log =~ m/^Buildtime was:\n[\d\.]+user [\d\.]+system (\d+):(\d+\.\d+)elapsed/m);
+
+	$report->($CONFLICTS, 'shift/reduce', $1)
+		if ($log =~ m!^shift/reduce conflicts:  (\d+)!m);
+	$report->($CONFLICTS, 'reduce/reduce', $1)
+		if ($log =~ m!^reduce/reduce conflicts: (\d+)!m);
 
 	my $out;
 	run (["nofib-analyse", "--csv=Allocs"], \$log, \$out) or die "cat: $?";
