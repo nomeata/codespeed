@@ -15,6 +15,10 @@ do
 			$scripts/run-speed.sh "$rev" >/dev/null
 			$scripts/log2json.pl "$rev.log"
 			$scripts/upload.sh "$rev.json"
+
+			git add $rev.log*
+			git commit -m "Log for $rev"
+			git push
 			break
 		fi
 	done
