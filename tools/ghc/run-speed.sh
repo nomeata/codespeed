@@ -77,7 +77,6 @@ say "Configuring"
 
 echo "Try to match validate settings"
 echo 'GhcLibWays := $(filter v dyn,$(GhcLibWays))' >> mk/build.mk
-echo 'GhcLibWays += p' >> mk/build.mk
 echo 'GhcLibHcOpts += -O -dcore-lint'  >> mk/build.mk
 echo 'GhcStage2HcOpts += -O -dcore-lint'  >> mk/build.mk
 
