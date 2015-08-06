@@ -18,18 +18,21 @@ do
 
 		for rev in $(git -C ghc-master log --format=%H --first-parent 57ed4101687651ba3de59fb75355f4b83ffdca75..$branchtip | tac)
 		do
-			if ! [ -e "$rev.log" -o  -e "$rev.log.broken" -o -d "ghc-tmp-$rev" ]
-			then
-				echo "Benchmarking $rev..."
-				$scripts/run-speed.sh "$rev" >/dev/null
-				$scripts/log2json.pl "$rev.log"
-				$scripts/upload.sh "$rev.json"
+			if git cat-file -e HEAD:$rev.log 2>/dev/null; then continue; fi
+			if git cat-file -e HEAD:$rev.log.broken 2>/dev/null; then continue; fi
+			if -d "ghc-tmp-$rev"; then continue; fi
 
-				git add $rev.log*
-				git commit -m "Log for $rev"
-				git push
-				break
-			fi
+			echo "Benchmarking $rev..."
+			$scripts/run-speed.sh "$rev" >/dev/null
+			$scripts/log2json.pl "$rev.log"
+			$scripts/upload.sh "$rev.json"
+			rm -f "$rev.json"
+
+			git add $rev.log*
+			git commit -m "Log for $rev"
+			git push
+			git checkout --
+			break
 		done
 	done
 	sleep 60 || break
