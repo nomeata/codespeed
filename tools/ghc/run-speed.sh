@@ -72,6 +72,7 @@ run perl boot
 say "Configuring"
 
 echo "Try to match validate settings"
+echo 'GhcHcOpts  = ' >> mk/build.mk # no -Rghc-timing
 echo 'GhcLibWays := $(filter v dyn,$(GhcLibWays))' >> mk/build.mk
 echo 'GhcLibHcOpts += -O -dcore-lint'  >> mk/build.mk
 echo 'GhcStage2HcOpts += -O -dcore-lint'  >> mk/build.mk
