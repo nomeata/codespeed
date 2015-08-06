@@ -22,12 +22,7 @@ set -e
 
 cd ~/logs/
 
-cd ghc-master
-git pull
-git submodule update --recursive
-cd ..
-
-
+git -C ~/all-repo-cache/ fetch --all
 
 if [ -e "ghc-tmp-$rev" ]
 then
@@ -52,10 +47,10 @@ trap failure ERR
 
 say "Cloning"
 
-run git clone --recursive --reference ghc-master git://git.haskell.org/ghc "ghc-tmp-$rev"
+run git clone --reference ~/all-repo-cache/ git://git.haskell.org/ghc "ghc-tmp-$rev"
 cd "ghc-tmp-$rev"
 run git checkout "$rev"
-git submodule update
+git submodule update --reference ~/all-repo-cache/ --init
 
 say "Identifying"
 
