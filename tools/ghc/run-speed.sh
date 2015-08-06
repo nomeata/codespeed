@@ -22,7 +22,8 @@ set -e
 
 cd ~/logs/
 
-git -C ~/all-repo-cache/ fetch --all
+echo Updating ~/all-repo-cache
+git -C ~/all-repo-cache/ fetch --all --quiet
 
 if [ -e "ghc-tmp-$rev" ]
 then
