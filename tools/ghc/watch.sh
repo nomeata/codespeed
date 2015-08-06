@@ -20,7 +20,7 @@ do
 		do
 			if git cat-file -e HEAD:$rev.log 2>/dev/null; then continue; fi
 			if git cat-file -e HEAD:$rev.log.broken 2>/dev/null; then continue; fi
-			if -d "ghc-tmp-$rev"; then continue; fi
+			if test -d "ghc-tmp-$rev"; then continue; fi
 
 			echo "Benchmarking $rev..."
 			$scripts/run-speed.sh "$rev" >/dev/null
