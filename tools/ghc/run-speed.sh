@@ -11,6 +11,11 @@ function run {
 	"$@"
 }
 
+function runt {
+	echo "$@"
+	timeout -k 4h 3h "$@"
+}
+
 rev="$1"
 if [ -z "$rev" ]
 then
@@ -67,7 +72,7 @@ run ohcount testsuite/
 
 say "Booting"
 
-run perl boot
+runt perl boot
 
 say "Configuring"
 
@@ -77,11 +82,11 @@ echo 'GhcLibWays := $(filter v dyn,$(GhcLibWays))' >> mk/build.mk
 echo 'GhcLibHcOpts += -O -dcore-lint'  >> mk/build.mk
 echo 'GhcStage2HcOpts += -O -dcore-lint'  >> mk/build.mk
 
-run ./configure
+runt ./configure
 
 say "Building"
 
-run /usr/bin/time -o buildtime make -j8 V=0
+runt /usr/bin/time -o buildtime make -j8 V=0
 echo "Buildtime was:"
 cat buildtime
 
@@ -91,8 +96,8 @@ run make -C testsuite fast VERBOSE=4 THREADS=8
 
 say "Running nofib"
 
-run make -C nofib boot
-run make -C nofib NoFibRuns=15
+runt make -C nofib boot
+runt make -C nofib NoFibRuns=15
 
 say "Total space used"
 
